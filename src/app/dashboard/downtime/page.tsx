@@ -1,8 +1,9 @@
 'use client';
 
+import * as React from 'react';
+import { useMemo, useState } from 'react';
 import { Box, Grid, Card, CardContent, Typography, TextField, MenuItem, Stack, Chip } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { useMemo, useState } from 'react';
 
 type Row = {
   id: number;
@@ -28,14 +29,15 @@ export default function DowntimePage() {
   const [date, setDate] = useState<string>('2025-09-09');
 
   const rows = useMemo(() => {
-    return allRows.filter(r => (line === 'ALL' || r.line === line) && (date ? r.date === date : true));
+    return allRows.filter((r) => (line === 'ALL' || r.line === line) && (date ? r.date === date : true));
   }, [line, date]);
 
-  const totalMin = rows.reduce((a,b)=>a+b.minutes,0);
+  const totalMin = rows.reduce((a, b) => a + b.minutes, 0);
+
   const topReason = useMemo(() => {
     const map = new Map<string, number>();
-    rows.forEach(r => map.set(r.reason, (map.get(r.reason) ?? 0) + r.minutes));
-    const arr = Array.from(map.entries()).sort((a,b)=>b[1]-a[1]);
+    rows.forEach((r) => map.set(r.reason, (map.get(r.reason) ?? 0) + r.minutes));
+    const arr = Array.from(map.entries()).sort((a, b) => b[1] - a[1]);
     return arr[0]?.[0] ?? '-';
   }, [rows]);
 
@@ -51,20 +53,39 @@ export default function DowntimePage() {
   ];
 
   return (
-    <Box p={2}>
+    <Box sx={{ p: 2 }}>
       <Grid container spacing={2}>
         {/* 필터 */}
         <Grid item xs={12}>
-          <P>test </P>
+          <Card>
             <CardContent>
-              <Stack direction="row" spacing={2} alignItems="center">
-                <TextField label="일자" type="date" value={date} onChange={e=>setDate(e.target.value)} InputLabelProps={{ shrink: true }}/>
-                <TextField select label="라인" value={line} onChange={e=>setLine(e.target.value)}>
+              {/* <p> 로 쓰거나 Typography 사용 */}
+              <Typography variant="subtitle2" sx={{ mb: 1, opacity: 0.7 }}>
+                test
+              </Typography>
+
+              <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
+                <TextField
+                  label="일자"
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  InputLabelProps={{ shrink: true }}
+                  size="small"
+                />
+                <TextField
+                  select
+                  label="라인"
+                  value={line}
+                  onChange={(e) => setLine(e.target.value)}
+                  size="small"
+                >
                   <MenuItem value="ALL">ALL</MenuItem>
                   <MenuItem value="WELD-A">WELD-A</MenuItem>
                   <MenuItem value="WELD-B">WELD-B</MenuItem>
                   <MenuItem value="WELD-C">WELD-C</MenuItem>
                 </TextField>
+
                 <Chip label={`총 비가동 ${totalMin}분`} color={totalMin >= 30 ? 'error' : 'default'} />
                 <Chip label={`Top 사유: ${topReason}`} />
               </Stack>
@@ -76,9 +97,17 @@ export default function DowntimePage() {
         <Grid item xs={12}>
           <Card>
             <CardContent>
-              <Typography variant="h6" mb={1}>비가동 일지</Typography>
+              <Typography variant="h6" sx={{ mb: 1 }}>
+                비가동 일지
+              </Typography>
               <div style={{ height: 480, width: '100%' }}>
-                <DataGrid rows={rows} columns={columns} pageSizeOptions={[5,10]} initialState={{ pagination:{ paginationModel:{ pageSize: 8 }}}}/>
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSizeOptions={[5, 10]}
+                  initialState={{ pagination: { paginationModel: { pageSize: 8 } } }}
+                  disableRowSelectionOnClick
+                />
               </div>
             </CardContent>
           </Card>
