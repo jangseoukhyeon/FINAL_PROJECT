@@ -55,7 +55,7 @@ export default function DowntimePage() {
       <Grid container spacing={2}>
         {/* 필터 */}
         <Grid item xs={12}>
-          <Card>
+          <P>test </P>
             <CardContent>
               <Stack direction="row" spacing={2} alignItems="center">
                 <TextField label="일자" type="date" value={date} onChange={e=>setDate(e.target.value)} InputLabelProps={{ shrink: true }}/>
