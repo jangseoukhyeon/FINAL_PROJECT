@@ -66,5 +66,16 @@
     "prettier": "3.5.3",
     "typescript": "5.8.3",
     "typescript-eslint": "8.34.0"
+  },
+  "description": "![license](https://img.shields.io/badge/license-MIT-blue.svg)",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jangseoukhyeon/FINAL_PROJECT.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jangseoukhyeon/FINAL_PROJECT/issues"
   }
 }
